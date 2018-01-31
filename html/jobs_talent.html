@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <style>
+	html,body{
+		-webkit-touch-callout:none;
+		-webkit-text-size-adjust:none;
+		-webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+		-webkit-user-select:none;
+	}
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .innerBox {
+            display: block;
+            width: 100%;
+        }
+        .innerBox li {
+            width: 100%;
+            height: 60px;
+            background: #FFFFFF;
+            display: -webkit-box;
+            -webkit-box-align: center;
+            font-size: 15px;
+            border-bottom: 1px solid #CDCCD1;
+        }
+        .smallFont{
+            font-size: 13px;
+            color: #bebebe;
+        }
+        .flex1{
+            -webkit-box-flex:1;
+        }
+
+    </style>
+</head>
+<body>
+<div id="main" style="text-align: center">
+        <header id="subheader">
+            <nav>
+                <a id="listnav" tapmode="" onclick="changeNav(0)" style="color: #013B62">位置显示</a>
+                <a id="mapnav" tapmode="" onclick="changeNav(1)"style="color: #013B62">地图显示</a>
+            </nav>
+        </header>
+</body>
+<script src="../script/api.js"></script>
+<script>
+    var headH = '0';
+    
+    var pageIndex = 0;
+    var inLoading = false;
+    var needLoadMore = false;
+    
+    var annoArray = [];
+    var bubbleMap = {};
+    var map = '';
+    
+    var model;
+    var query;
+    var baiduLocation
+    var isReload_;
+    var jsonList    = [];
+    var totalcount      = 0;
+    var alreadyshow     = 0;
+    var limitItemNum    = 10;
+
+    apiready = function () {
+        map = api.require('baiduMap');
+        baiduLocation = api.require('baiduLocation');
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: 'rgba(0,0,0,0)',
+            textColor: '#666',
+            textDown: '下拉刷新',
+            textUp: '释放刷新'
+        }, function(ret, err){
+            loadData();
+        });
+        api.addEventListener({name: 'scrolltobottom'}, function(ret, err){
+            loadData();
+        });
+    };
+        function loadData(){
+        api.refreshHeaderLoadDone();
+        var content = $api.byId('list');
+        $api.append(content,$api.html(content));
+        api.parseTapmode();
+    }
+    function mapDisplay(){
+        var lastKey = 'EkbItWgiHNnap3qvzfiqwGkS';
+        var subheader = $api.byId('subheader');
+        var subheaderPos = $api.offset(subheader);
+        var bodyH = window.innerHeight;
+            
+        map.open({
+            apiKey: lastKey,
+            x: 0,
+            y: (subheaderPos.h + headH),
+            width: subheaderPos.w,
+            height: parseInt(bodyH - subheaderPos.h)
+        });
+            
+        //获取位置信息
+        map.startLocation(function(ret, err){
+            //设置地图中心
+            map.setCenter({
+                lon: ret.longitude,
+                lat:ret.latitude,
+            });
+        });
+
+        //设置显示用户位置
+        map.showUserLocation({isShow: true, trackingMode: 'none'});         
+
+// alert(JSON.stringify(annoArray));
+
+        map.addAnnotations({
+            annoArray: annoArray
+            // annoArray:[{id:0,lon:116.297,lat:40.109,title:'第一个',subTitle:'子标题'},
+   //          {id:1,lon:116.29,lat:40.109,title:'第二个',subTitle:'子标题'},
+   //          {id:2,lon:116.298,lat:40.11,title:'第三个',subTitle:'子标题'}]
+        }, function(ret,err){
+            var id = ret.bubbleID;
+            try{
+            map.setBubbleStyle({
+                bubbleBgImg:'widget://res/bubble_bg.png',
+                imgPath: 'widget://res/bubble_head.png',
+                id: id
+            });
+            }catch(e){
+                alert('error:' + e.message);
+            }
+        });
+        $api.setStorage('openmap', 'opened');
+    }
+
+    function location_get(){
+        baiduLocation.getLocation(
+    function(ret, err){
+        var sta = ret.status;
+        var lat = ret.latitude;
+        var lon = ret.longitude;
+        var t = ret.timestamp;
+        if(sta){
+            var str = '经度：'+ lon +'<br>';
+            str += '纬度：'+ lat +'<br>';
+            str += '更新时间：'+ t +'<br>';
+            api.alert({msg:str});
+        } else{
+            api.alert({msg:err.msg});
+        }
+    }
+);
+    }
+    function changeNav(index){
+        var mapnav = $api.byId('mapnav');
+        var listnav = $api.byId('listnav');
+        if(index == '1'){
+            mapDisplay();//地图显示
+            $api.removeAttr(mapnav, 'onclick');
+            // $api.attr(listnav, 'onclick', 'changeNav("0")');
+        }else{
+            closeBaiduMap();
+            location_get();
+            $api.removeAttr(listnav, 'onclick');
+            // $api.attr(mapnav, 'onclick', 'changeNav("1")');
+        }
+    }
+    
+    function closeBaiduMap(){
+        map.close();
+        $api.rmStorage('openmap');
+    }
+</script>
+</html>

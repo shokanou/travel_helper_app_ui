@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<widget id="A6966916087660" version="0.0.1">
+  <name>旅行助手</name>
+  <description>DEMO</description>
+  <author email="ousyoukan@hotmail.com" href="">ousyoukan</author>
+  <content src="index.html"/>
+  <preference name="pageBounce" value="true"/>
+  <preference name="appBackground" value="rgba(0,0,0,0)"/>
+  <preference name="windowBackground" value="/rgba(0,0,0,0.0)"/>
+  <preference name="frameBackgroundColor" value="rgba(0,0,0,0.1)"/>
+  <preference name="hScrollBarEnabled" value="true"/>
+  <preference name="vScrollBarEnabled" value="true"/>
+  <preference name="autoLaunch" value="true"/>
+  <preference name="fullScreen" value="false"/>
+  <preference name="smartUpdate" value="false"/>
+  <preference name="debug" value="false"/>
+  <preference name="iOS7StatusBarAppearance" value="true"/>
+  <preference name="autoUpdate" value="true"/>
+  <permission name="readPhoneState"/>
+  <permission name="call"/>
+  <permission name="sms"/>
+  <permission name="camera"/>
+  <permission name="record"/>
+  <permission name="location"/>
+  <permission name="fileSystem"/>
+  <permission name="internet"/>
+  <permission name="bootCompleted"/>
+  <permission name="hardware"/>
+  <permission name="contact"/>
+  <access origin="*"/>
+  <feature name="weiXin">
+    <param name="urlScheme" value="wx8a979365721f511f"/>
+    <param name="apiKey" value="wx8a979365721f511f"/>
+  </feature>
+  <feature name="sinaWeiBo">
+    <param name="urlScheme" value="wb2691317466"/>
+    <param name="apiKey" value="2691317466"/>
+    <param name="rgistUrl" value="http://www.apicloud.com"/>
+  </feature>
+  <feature name="baiduMap">
+    <param name="android_api_key" value="f7Is0dWLom2q6rV3ZfFPZ1aa"/>
+    <param name="ios_api_key" value="81qz3dBYB5q2nGji4IYrawr1"/>
+  </feature>
+  <feature name="baiduLocation">
+    <param name="apiKey" value="EkbItWgiHNnap3qvzfiqwGkS"/>
+  </feature>
+</widget>

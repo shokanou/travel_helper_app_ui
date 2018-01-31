@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/common.css" />
+    <style>
+	html,body{
+		-webkit-touch-callout:none;
+		-webkit-text-size-adjust:none;
+		-webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+		-webkit-user-select:none;
+	}
+	
+        .flex1{
+            -webkit-box-flex:1;
+        }
+        .-webkit-box{
+            display:-webkit-box;
+        }
+        .-webkit-box-vertical{
+            -webkit-box-orient:vertical;
+        }
+        .-webkit-box-center{
+            -webkit-box-pack:center;
+            -webkit-box-align:center;
+        }
+        .break-word{
+            word-wrap:break-word;
+        }
+        .-webkit-box-pack-end{
+            -webkit-box-pack:end;
+            -webkit-box-align:center;
+        }
+        .-webkit-box-pack-start{
+            -webkit-box-pack:start;
+            -webkit-box-align:center;
+        }
+        .anon-img-icon{
+            width: 17px;
+        }
+        .anon-img-icon + span{
+            margin-left: 12px;font-size: 12px;
+        }
+    </style>
+</head>
+
+
+<div>
+    <ul id="list1">
+        <li class="-webkit-box -webkit-box-vertical" style="background-color:#FFF0F5;padding-bottom: 12px;">
+            <div class="-webkit-box -webkit-box-vertical flex1">
+                <div style="margin: 12px;" class="-webkit-box">
+                    <span   class="-webkit-box  flex1 break-word" style="font-size: 14px;padding: 6px">
+                    给大家安利联票啦！杭州旅游部门推出了西湖联票。首批西湖联票精选了西湖核心景区内8个极具西湖文化特色的景点，组成了A、B、C三条各具特色西湖联票线路，每组线路均由4个景点组成，给游客超值的旅游体验。目前，西湖联票已经向各大旅行社正式发售。
+                    </span>
+                </div>
+            </div>
+            <div class="-webkit-box">
+                <div class="-webkit-box -webkit-box-pack-start"  style="width:100px;font-size: 12px;padding-left: 12px;"><strong>#景点门票</strong></div>
+                <div  class="-webkit-box -webkit-box-center flex1" style="">
+                    <div  class="-webkit-box -webkit-box-center flex1">
+                        <img src="../image/gossip_comment.png" class="anon-img-icon">
+                        <span >69</span></div>
+                    <div  class="-webkit-box -webkit-box-center flex1">
+                        <img src="../image/gossip_comment.png" class="anon-img-icon">
+                        <span >分享</span></div>
+                </div>
+            </div>
+        </li>
+        <li class="-webkit-box -webkit-box-vertical" style="background-color:#FFF0F5;padding-bottom: 12px;">
+            <div class="-webkit-box -webkit-box-vertical flex1">
+                <div style="margin: 12px;" class="-webkit-box">
+                    <span   class="-webkit-box  flex1 break-word" style="font-size: 14px;padding: 6px">
+                    杭州天竺路，一条通向佛国的幽静小道，山峦起伏，古树参天。沿路汇集了灵隐寺、法喜寺、法境寺和法净寺等著名庙宇，以及许多丝绸店、茶叶店和小吃店，著名的江南驿餐馆就在天竺路上，还可在法喜寺和法净寺吃斋饭、在杭图佛学分馆看书听佛学讲座，于炎炎夏日享受无尽的清凉。
+                    </span>
+                </div>
+            </div>
+            <div class="-webkit-box">
+                <font color="#A4D3EE"><div class="-webkit-box -webkit-box-pack-start"  style="width:100px;font-size: 12px;padding-left: 12px;"><strong>#西湖沿线</strong></div></font>
+                <div  class="-webkit-box -webkit-box-center flex1" style="">
+                    <div  class="-webkit-box -webkit-box-center flex1">
+                        <img src="../image/gossip_comment.png" class="anon-img-icon">
+                        <span >46</span></div>
+                    <div  class="-webkit-box -webkit-box-center flex1">
+                        <img src="../image/gossip_comment.png" class="anon-img-icon">
+                        <span >分享</span></div>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+</div>
+</body>
+<script src="../script/api.js"></script>
+<script>
+apiready = function(){
+	api.setRefreshHeaderInfo({
+		visible: true,
+		bgColor: 'rgba(0,0,0,0)',
+		textColor: '#666',
+		textDown: '下拉刷新',
+		textUp: '释放刷新'	
+	}, function(ret, err){
+        loadData();
+	});
+	
+    api.addEventListener({name: 'scrolltobottom'}, function(ret, err){
+        loadData();
+    });
+};
+
+function loadData(){
+    api.refreshHeaderLoadDone();
+    var content = $api.byId('list1');
+    $api.append(content,$api.html(content));
+    api.parseTapmode();
+}
+</script>
+</html>
